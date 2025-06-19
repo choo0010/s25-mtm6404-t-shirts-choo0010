@@ -1,1 +1,6 @@
-# s25-mtm6404-t-shirts-choo0010
+# T-Shirts
+
+## Objective
+Use the React framework and the provided files to create a t-shirt storefront.
+
+
