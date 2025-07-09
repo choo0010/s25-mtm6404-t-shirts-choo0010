@@ -123,7 +123,12 @@ function App() {
       <h1>T-Shirt Storefront</h1>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {tshirts.map((t) => (
-          <TShirtCard key={t.title} tshirt={t} onBuy={handleBuy} onQuantityChange={handleQuantityChange} />
+          <TShirtCard
+            key={t.title}
+            tshirt={t}
+            onBuy={handleBuy}
+            onQuantityChange={handleQuantityChange}
+          />
         ))}
       </div>
     </div>
