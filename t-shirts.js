@@ -66,28 +66,31 @@ const initialTshirts = [
 
 function TShirtCard({ tshirt, onBuy, onQuantityChange }) {
   return (
-    <div style={{ border: '1px solid #ccc', padding: '12px', margin: '10px', width: '200px' }}>
-      <img src={tshirt.image} alt={tshirt.title} style={{ width: '100%' }} />
+    <div style={{ border: '1px solid gray', padding: 10, margin: 10, width: 220 }}>
+      <img src={tshirt.image} alt={tshirt.title} width="200" height="200" />
       <h3>{tshirt.title}</h3>
       <p>Price: ${tshirt.price.toFixed(2)}</p>
-      <p>
-        {tshirt.stock === 0 ? (
-          <strong style={{ color: 'red' }}>Out of Stock</strong>
-        ) : (
-          <>
-            Stock: {tshirt.stock}
-            <br />
-            <select value={tshirt.quantity} onChange={(e) => onQuantityChange(tshirt.title, parseInt(e.target.value))}>
-              {Array.from({ length: tshirt.stock }, (_, i) => i + 1).map((num) => (
-                <option key={num} value={num}>
-                  {num}
-                </option>
+      <p>Stock: {tshirt.stock}</p>
+
+      {tshirt.stock === 0 ? (
+        <p style={{ color: 'red' }}><strong>Out of Stock</strong></p>
+      ) : (
+        <React.Fragment>
+          <label>
+            Quantity:
+            <select
+              value={tshirt.quantity}
+              onChange={(e) => onQuantityChange(tshirt.title, parseInt(e.target.value))}
+            >
+              {Array.from({ length: tshirt.stock }, (_, i) => i + 1).map(num => (
+                <option key={num} value={num}>{num}</option>
               ))}
             </select>
-            <button onClick={() => onBuy(tshirt.title)}>Buy</button>
-          </>
-        )}
-      </p>
+          </label>
+          <br />
+          <button onClick={() => onBuy(tshirt.title)}>Buy</button>
+        </React.Fragment>
+      )}
     </div>
   );
 }
@@ -103,29 +106,27 @@ function App() {
   }, [tshirts]);
 
   const handleBuy = (title) => {
-    setTshirts((prev) =>
-      prev.map((t) =>
-        t.title === title && t.stock >= t.quantity
-          ? { ...t, stock: t.stock - t.quantity }
-          : t
-      )
-    );
+    setTshirts(tshirts.map(t =>
+      t.title === title && t.stock >= t.quantity
+        ? { ...t, stock: t.stock - t.quantity }
+        : t
+    ));
   };
 
-  const handleQuantityChange = (title, qty) => {
-    setTshirts((prev) =>
-      prev.map((t) => (t.title === title ? { ...t, quantity: qty } : t))
-    );
+  const handleQuantityChange = (title, quantity) => {
+    setTshirts(tshirts.map(t =>
+      t.title === title ? { ...t, quantity } : t
+    ));
   };
 
   return (
     <div>
-      <h1>T-Shirt Storefront</h1>
+      <h1>T-Shirt Store</h1>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {tshirts.map((t) => (
+        {tshirts.map(tshirt => (
           <TShirtCard
-            key={t.title}
-            tshirt={t}
+            key={tshirt.title}
+            tshirt={tshirt}
             onBuy={handleBuy}
             onQuantityChange={handleQuantityChange}
           />
